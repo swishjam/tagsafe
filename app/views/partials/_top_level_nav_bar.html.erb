@@ -1,0 +1,115 @@
+<nav class="bg-white border-b ">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+    <div class="flex h-16 justify-between">
+      <div class="flex">
+        <div class="flex flex-shrink-0 items-center">
+          <%= link_to root_path do %>
+            <%= image_tag '/images/tagsafe-logo.svg', class: 'block h-8 w-8 cursor-pointer' %>
+          <% end %>
+        </div>
+
+        <nav class="flex ml-4" aria-label="Breadcrumb">
+          <% if @breadcrumbs && @breadcrumbs.any? %>
+            <ol role="list" class="flex items-center space-x-4">
+
+              <% @breadcrumbs.each_with_index do |crumb, i| %>
+                <li>
+                  <div class="flex items-center">
+                    <!-- Heroicon name: mini/chevron-right -->
+                    <% if i > 0 %>
+                      <svg class="h-5 w-5 flex-shrink-0 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                      </svg>
+                    <% end %>
+
+                    <% if crumb[:url] %>
+                      <%= link_to crumb[:text], crumb[:url], :class => "ml-4 text-sm font-medium text-gray-500 hover:text-blue-500" %>
+                    <% else %>
+                      <span class="ml-4 text-sm font-medium text-gray-500 cursor-default">
+                        <%= crumb[:text] %>
+                      </span>
+                    <% end %>
+                  </div>
+                </li>
+              <% end %>
+
+            </ol>
+          <% end %>
+        </nav>
+      </div>
+
+      <div class="sm:ml-6 sm:flex sm:items-center">
+        <div data-controller='modal'>
+          <div data-controller="dropdown" class="relative inline-block text-left">
+            <div>
+              <button
+                  data-action="click->dropdown#toggle"
+                  type="button"
+                  class="flex items-center rounded-full bg-gray-100 text-gray-400 px-3 py-3 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+                  id="menu-button"
+                  aria-expanded="true"
+                  aria-haspopup="true"
+                >
+                <span class="sr-only">Open options</span>
+                <%= current_user.initials %>
+              </button>
+            </div>
+
+            <div data-dropdown-target='menu' class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-in-out opacity-0 hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+              <div class="py-1 px-1" role="none">
+                <span class='block text-gray-700 px-4 py-2 text-sm'><%= current_user.email %></span>
+                <hr/>
+                <a data-action='modal#showModal dropdown#toggle' class='cursor-pointer text-gray-700 block px-4 py-2 text-sm hover:text-blue-500'>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline mr-1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  Installation
+                </a>
+                <%= link_to logout_path, class: 'text-gray-700 block px-4 py-2 text-sm hover:text-blue-500', target: '_top' do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline rotate-90 mr-1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                  </svg>
+                  Sign out
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <div class="relative z-10 opacity-0 hidden" data-modal-target='backdrop' aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+            <div class="fixed inset-0 z-10 overflow-y-auto">
+              <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                  <div>
+                    <div class="mt-3 text-center sm:mt-5">
+                      <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Paste the below HTML snippet into the top of the head of each page on your site.</h3>
+                      <div class="mt-2">
+                        <p class="text-sm text-gray-500 bg-gray-100 text-start whitespace-nowrap overflow-x-scroll p-2">
+                          &lt;script&gt;!function(e){var t={},r=new XMLHttpRequest;r.open("GET","<%= current_organization.hosted_configuration_url %>",!1),r.send(),r.onload=function(){t=JSON.parse(r.responseText)};var o=Node.prototype.appendChild;Node.prototype.appendChild=function(){return arguments[0]=s(arguments[0]),o.apply(this,arguments)};var p=Node.prototype.insertBefore;Node.prototype.insertBefore=function(){return arguments[0]=s(arguments[0]),p.apply(this,arguments)};var n=Node.prototype.prepend;Node.prototype.prepend=function(){return arguments[0]=s(arguments[0]),n.apply(this,arguments)};var s=function(e){return"SCRIPT"===e.tagName&&t[e.src]&&(e.setAttribute("data-self-hosted","true"),e.setAttribute("src",t[e.src])),e}}();&lt;/script&gt;
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+                    <div data-controller='copiable'>
+                      <input type='hidden' data-copiable-target='textInput' value='&lt;script&gt;!function(e){var t={},r=new XMLHttpRequest;r.open("GET","<%= current_organization.hosted_configuration_url %>",!1),r.send(),r.onload=function(){t=JSON.parse(r.responseText)};var o=Node.prototype.appendChild;Node.prototype.appendChild=function(){return arguments[0]=s(arguments[0]),o.apply(this,arguments)};var p=Node.prototype.insertBefore;Node.prototype.insertBefore=function(){return arguments[0]=s(arguments[0]),p.apply(this,arguments)};var n=Node.prototype.prepend;Node.prototype.prepend=function(){return arguments[0]=s(arguments[0]),n.apply(this,arguments)};var s=function(e){return"SCRIPT"===e.tagName&&t[e.src]&&(e.setAttribute("data-self-hosted","true"),e.setAttribute("src",t[e.src])),e}}();&lt;/script&gt;'>
+                      <button type="button" data-copiable-target='copyButton' data-action='copiable#copyText' class="w-full inline-flex items-center justify-center rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-200 focus:outline-none">
+                        Copy
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+                        </svg>
+                      </button>
+                    </div>
+                    <button type="button" data-action='modal#hideModal' class="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 col-start-2">Got it</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

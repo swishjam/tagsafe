@@ -1,0 +1,4 @@
+fifteen_minute_release_checks:
+  class: ReleaseCheckerJob
+  cron: "*/15 * * * *" # every 15 minutes
+  queue: critical

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tagsafe</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= turbo_include_tags %>
+    <%= stimulus_include_tags %>
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= favicon_link_tag '/images/tagsafe-logo.svg' %>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          fontSize: {
+            xs: ['0.75rem', { lineHeight: '1rem' }],
+            sm: ['0.875rem', { lineHeight: '1.5rem' }],
+            base: ['1rem', { lineHeight: '1.75rem' }],
+            lg: ['1.125rem', { lineHeight: '2rem' }],
+            xl: ['1.25rem', { lineHeight: '2rem' }],
+            '2xl': ['1.5rem', { lineHeight: '2rem' }],
+            '3xl': ['2rem', { lineHeight: '2.5rem' }],
+            '4xl': ['2.5rem', { lineHeight: '3.5rem' }],
+            '5xl': ['3rem', { lineHeight: '3.5rem' }],
+            '6xl': ['3.75rem', { lineHeight: '1' }],
+            '7xl': ['4.5rem', { lineHeight: '1.1' }],
+            '8xl': ['6rem', { lineHeight: '1' }],
+            '9xl': ['8rem', { lineHeight: '1' }],
+          },
+          extend: {
+            borderRadius: {
+              '4xl': '2rem',
+            },
+            fontFamily: {
+              sans: ['Inter var', 'ui-sans-serif', 'sans-serif', 'system-ui', '-apple-system', 'Roboto', 'Helvetica Neue', 'Arial'],
+              display: ['Lexend', 'sans-serif'],
+            },
+            maxWidth: {
+              '2xl': '40rem',
+            },
+            colors: {
+              tagsafe: {
+                DEFAULT: '#7487F7',
+                dark: '#46518f',
+                yellow: '#FAD831',
+                orange: '#EF7136',
+                purple: '#A343BA',
+                'off-white': '#FFFDF2',
+                'dark-blue': '#1F2D37',
+                'blue-gray': '#394150',
+              },
+            },
+          },
+        }
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
+    <style type="text/tailwindcss">
+    </style>
+
+    <%= yield :head %>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  </head>
+  <body class="<%=controller_name%> <%= action_name %>">
+    <%= render 'partials/flash_banner' %>
+    <div class="">
+      <%= render 'partials/top_level_nav_bar', navigation_items: @navigation_items %>
+      <%= yield %>
+    </div>
+  </body>
+</html>

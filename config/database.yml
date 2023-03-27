@@ -1,0 +1,27 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+local: &local
+  <<: *default
+  database: self_hosting_tags_development
+  username: root
+  password: password
+  host: localhost
+
+test:
+  <<: *local
+  database: self_hosting_tags_test
+
+development:
+  <<: *local
+
+production:
+  <<: *default
+  adapter: mysql2
+  database: <%= ENV.fetch("DB_NAME") %>
+  username: <%= ENV.fetch("DB_USERNAME") %>
+  host: <%= ENV.fetch("DB_HOST") %>
+  password: <%= ENV.fetch("DB_PASSWORD") %>
+

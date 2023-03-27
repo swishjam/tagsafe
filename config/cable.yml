@@ -1,0 +1,14 @@
+development:
+  adapter: redis
+  url: <%= ENV["REDIS_URL"] %>
+  channel_prefix: tagsafe_development
+
+test:
+  adapter: async
+
+production:
+  adapter: redis
+  url: <%= ENV["REDIS_URL"] %>
+  ssl_params:
+    verify_mode: <%= OpenSSL::SSL::VERIFY_NONE %>
+  channel_prefix: tagsafe_production

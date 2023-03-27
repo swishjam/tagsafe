@@ -1,0 +1,46 @@
+<%= turbo_frame_tag "tag_version_#{@tag_version.id}_diff", src: diff_tag_tag_version_path(@tag, @tag_version) do %>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8 mb-8">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8 mb-8">
+    
+    <div class='grid grid-cols-3 text-md border border-gray-400 rounded-t-md p-3 flex items-center bg-gray-100'>
+      <div class='col-span-2'>
+        <span>Released <span class='font-semibold italic'><%= time_ago_in_words(@tag_version.created_at) %> ago</span>.</span>
+      </div>
+      <div class='col-span-1 text-end'>
+      </div>
+    </div>
+    <div class='grid grid-cols-3 text-md border border-gray-400 rounded-b-md mb-5 p-3 flex items-center mb-5'>
+      <div class='col-span-2'>
+        <span class='text-md truncate block italic'><%= @tag_version.minified_content_host_url || @tag_version.original_content_host_url %></span>
+      </div>
+      <div class='col-span-1 text-end'>
+        Commit <span class='italic'><%= @tag_version.sha %></span>
+      </div>
+    </div>
+
+    <div class='border-t border-l border-r border-gray-400 bg-gray-100 rounded-t-md p-3 animate-pulse'>
+      <% 5.times do %>
+        <div class='h-3 w-3 bg-gray-300 border-gray-400 inline-block -ml-1'></div>
+      <% end %>
+      <span class='ml-2'><%= @tag.full_url %></span>
+    </div>
+
+    <div class='grid grid-cols-2 diff-content border border-gray-400 rounded-b-md overflow-hidden p-4 animate-pulse'>
+      <div>
+        <div class='h-4 w-[75%] bg-gray-300 border-gray-400 m-1 rounded'></div>
+        <div class='h-4 w-[50%] bg-gray-300 border-gray-400 m-1 rounded'></div>
+        <div class='h-4 w-[60%] bg-gray-300 border-gray-400 m-1 rounded'></div>
+        <div class='h-4 w-[30%] bg-gray-300 border-gray-400 m-1 rounded'></div>
+        <div class='h-4 w-[40%] bg-gray-300 border-gray-400 m-1 rounded'></div>
+        <div class='h-4 w-[90%] bg-gray-300 border-gray-400 m-1 rounded'></div>
+      </div>
+      <div>
+        <div class='h-4 w-[40%] bg-gray-300 border-gray-400 m-1 rounded'></div>
+        <div class='h-4 w-[20%] bg-gray-300 border-gray-400 m-1 rounded'></div>
+        <div class='h-4 w-[80%] bg-gray-300 border-gray-400 m-1 rounded'></div>
+        <div class='h-4 w-[60%] bg-gray-300 border-gray-400 m-1 rounded'></div>
+        <div class='h-4 w-[30%] bg-gray-300 border-gray-400 m-1 rounded'></div>
+      </div>
+    </div>
+  </div>
+<% end %>

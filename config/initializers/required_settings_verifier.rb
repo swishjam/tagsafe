@@ -1,0 +1,3 @@
+raise "You must provide a `HOST_CDN_HOSTNAME` ENV. This is the hostname of the CDN your tags and configuration file are hosted from." if ENV['HOST_CDN_HOSTNAME'].nil?
+raise "You must provide a `HOSTED_CONTENT_S3_BUCKET_NAME` ENV. This is the bucket where your tags and configuration file are hosted from." if ENV['HOSTED_CONTENT_S3_BUCKET_NAME'].nil?
+raise "You must provide a `CLOUDFRONT_CDN_DISTRIBUTION_ID` ENV. This is the CloudFront distribution ID for your CDN." if ENV['CLOUDFRONT_CDN_DISTRIBUTION_ID'].nil?

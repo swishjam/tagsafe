@@ -1,0 +1,121 @@
+<%= turbo_frame_tag "tag_version_#{tag_version.id}_diff" do %>
+  <style id='diffy-css'><%= Diffy::CSS %></style>
+  <style>
+    .diff-content .diff {
+      overflow: inherit;
+    }
+    .diff-content ul {
+      background: rgb(243 244 246);
+    }
+    .diff-content li {
+      list-style-type: decimal;
+      list-style-position: outside;
+      margin-left: 35px;
+      height: auto;
+      word-break: break-word;
+    }
+    .diff-content li:not(.diff-block-info) {
+      display: list-item;
+    }
+    .diff-content li.diff-block-info {
+      padding: 5px;
+    }
+    .diff-content li.diff-block-info span {
+      margin-left: 35px;
+    }
+    .diff-content li::marker {
+      color: #24292f;
+    }
+    .diff-content li.symbol {
+      color: #24292f;
+    }
+    .diff-content li.diff-block-info {
+      background: #eff6ff;
+    }
+    .diff-content li.unchanged {
+      background: white;
+    }
+    .diff-content li.unchanged:hover {
+      background: white;
+    }
+    .diff-content li.ins {
+      background: #dfd;
+    }
+    .diff-content li.ins:hover {
+      background: #dfd;
+    }
+    .diff-content li.del {
+      background: #fee;
+    }
+    .diff-content li.del:hover {
+      background: #fee;
+    }
+    .diff-content li.diff-comment {
+      display: none;
+    }
+    .diff ins strong {
+      background: #abf2bc
+    }
+  </style>
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8 mb-8">
+    <div class='grid grid-cols-3 text-md border border-gray-400 rounded-t-md p-3 flex items-center bg-gray-100'>
+      <div class='col-span-2'>
+        <span>Released <span class='font-semibold italic'><%= time_ago_in_words(tag_version.created_at) %> ago</span>.</span>
+      </div>
+      <div class='col-span-1 text-end'>
+        <% if tag_version.is_currently_live? %>
+          <div class='h-2 w-2 rounded-full bg-green-400 inline-block mr-1'></div> Live version
+        <% else %>
+          <%= form_with model: tag do |f| %>
+            <%= f.hidden_field :currently_live_tag_version_id, value: tag_version.id %>
+            <button type='submit' class='border-2 rounded-md border-gray-300 text-blue-600 py-2 px-4 bg-gray-100 hover:bg-gray-200'>
+              Set as live version
+            </button>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class='grid grid-cols-3 text-md border border-gray-400 rounded-b-md mb-5 p-3 flex items-center mb-5'>
+      <div class='col-span-2'>
+        <span class='text-md truncate block italic'><%= tag_version.minified_content_host_url || tag_version.original_content_host_url %></span>
+      </div>
+      <div class='col-span-1 text-end'>
+        Commit <span class='italic'><%= tag_version.sha %></span>
+      </div>
+    </div>
+
+    <div class='border-t border-l border-r border-gray-400 bg-gray-100 rounded-t-md p-3'>
+      <span class='text-green-600'>
+        +<%= num_additions %>
+      </span> 
+      <span class='text-red-600 mr-1'>
+        -<%= num_deletions %>
+      </span>
+
+      <% num_addition_squares = total_changes <= 5 ? num_additions : ((num_additions.to_f / (total_changes.to_f))*5.0).to_i %>
+      <% num_deletion_squares = total_changes <= 5 ? num_deletions : ((num_deletions.to_f / (total_changes.to_f))*5.0).to_i %>
+      <% num_neutral_squares = 5 - num_addition_squares - num_deletion_squares %>
+      <% num_addition_squares.times do %>
+        <div class='h-3 w-3 bg-green-600 border border-gray-400 inline-block' style='margin-left: -3px'></div>
+      <% end %>
+      <% num_deletion_squares.times do %>
+        <div class='h-3 w-3 bg-red-600 border border-gray-400 inline-block' style='margin-left: -3px'></div>
+      <% end %>
+      <% num_neutral_squares.times do %>
+        <div class='h-3 w-3 bg-gray-300 border border-gray-400 inline-block' style='margin-left: -3px'></div>
+      <% end %>
+
+      <span class='ml-2'><%= tag.full_url %></span>
+    </div>
+
+    <div class='grid grid-cols-2 diff-content border border-gray-400 rounded-b-md overflow-hidden'>
+      <div>
+        <%= deletions_html %>
+      </div>
+      <div>
+        <%= additions_html %>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,81 @@
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-12">
+  <div class="mx-auto max-w-3xl md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl ">
+    <div class="flex items-center space-x-5 truncate">
+      <div>
+        <h1 class="text-2xl font-medium text-gray-900">Releases made by <%= @tag.hostname_and_path %></h1>
+        <% if @tag.release_checks.any? %>
+          <h2 class="text-sm font-small text-gray-600">As of <%= time_ago_in_words(@tag.most_recent_release_check.created_at) %> ago.</h2>
+        <% end %>
+      </div>
+    </div>
+    <div class="justify-stretch mt-6 flex flex-col-reverse space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-y-0 sm:space-x-3 sm:space-x-reverse md:mt-0 md:flex-row md:space-x-3">
+      <%= form_with url: tag_path, method: :delete do %>
+        <button type='submit' class="rounded-md inline-flex justify-center items-center border border-red-300 bg-white px-4 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-red-200">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Stop hosting this tag
+        </button>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8">
+  <% if @tag.tag_versions.any? %>
+    <div class="overflow-hidden bg-white shadow sm:rounded-md">
+      <ul role="list" class="divide-y divide-gray-200">
+        <% @tag.tag_versions.most_recent_first.each do |tag_version| %>
+          <li>
+            <%= link_to tag_tag_version_path(@tag, tag_version), class: 'block hover:bg-gray-50' do %>
+              <div class="flex items-center px-4 py-4 sm:px-6">
+                <div class="flex min-w-0 flex-1 items-center">
+                  <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4 flex items-center">
+                    <div>
+                      <p class="truncate text-sm font-medium text-gray-900 w-fit">
+                        Version 
+                        <span class="italic bg-gray-200 rounded p-1">
+                          <%= tag_version.sha %>
+                        </span>
+                        <% if tag_version.is_currently_live? %>
+                          <span class="ml-2 rounded bg-green-100 p-1 text-sm text-green-800">Currently live</span>
+                        <% end %>
+                      </p>
+                      <p class="truncate italic text-sm font-medium text-gray-900">
+                        <%= tag_version.minified_content_host_url || tag_version.original_content_host_url %>
+                      </p>
+                    </div>
+                    <div class="text-end">
+                      <div>
+                        <p class="text-sm text-gray-900">
+                          Released <%= time_ago_in_words(tag_version.created_at) %> ago.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              </div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% else %>
+    <div class="space-y-6 col-span-3 border rounded-md">
+      <div class="text-center mt-36 mb-36">
+        <svg class="mx-auto h-12 w-12 text-gray-400"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z" />
+        </svg>
+
+        <h3 class="mt-2 text-sm font-medium text-gray-900">This tag does not have any tag versions yet.</h3>
+      </div>
+    </div>
+  <% end %>
+</div>
+

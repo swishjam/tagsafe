@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta property="og:title" content="Tagsafe" />
+    <meta property="og:description" content="Take back control of your third party tags." />
+    <meta property="og:image" content="https://www.tagsafe.io/images/tagsafe-logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <title>Tagsafe</title>
+    <%= turbo_include_tags %>
+    <%= stimulus_include_tags %>
+
+    <script src="https://kit.fontawesome.com/d38fe451ee.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          fontSize: {
+            xs: ['0.75rem', { lineHeight: '1rem' }],
+            sm: ['0.875rem', { lineHeight: '1.5rem' }],
+            base: ['1rem', { lineHeight: '1.75rem' }],
+            lg: ['1.125rem', { lineHeight: '2rem' }],
+            xl: ['1.25rem', { lineHeight: '2rem' }],
+            '2xl': ['1.5rem', { lineHeight: '2rem' }],
+            '3xl': ['2rem', { lineHeight: '2.5rem' }],
+            '4xl': ['2.5rem', { lineHeight: '3.5rem' }],
+            '5xl': ['3rem', { lineHeight: '3.5rem' }],
+            '6xl': ['3.75rem', { lineHeight: '1' }],
+            '7xl': ['4.5rem', { lineHeight: '1.1' }],
+            '8xl': ['6rem', { lineHeight: '1' }],
+            '9xl': ['8rem', { lineHeight: '1' }],
+          },
+          extend: {
+            borderRadius: {
+              '4xl': '2rem',
+            },
+            fontFamily: {
+              sans: ['Inter', ...defaultTheme.fontFamily.sans],
+              display: ['Lexend', ...defaultTheme.fontFamily.sans],
+            },
+            maxWidth: {
+              '2xl': '40rem',
+            },
+            colors: {
+              tagsafe: {
+                DEFAULT: '#7487F7',
+                dark: '#46518f',
+                yellow: '#FAD831',
+                orange: '#EF7136',
+                purple: '#A343BA',
+                'off-white': '#FFFDF2',
+                'dark-blue': '#1F2D37',
+                'blue-gray': '#394150',
+              },
+            },
+          },
+        },
+        plugins: [require('@tailwindcss/forms')],
+
+      }
+    </script> 
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <!-- <#%= javascript_include_tag 'application' %> !-->
+    <%= favicon_link_tag '/images/tagsafe-logo.svg' %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Open+Sans+Condensed:wght@300&family=Rubik:wght@300&display=swap" rel="stylesheet">
+  </head>
+
+  <body class="logged-out <%=controller_name%> <%= action_name %>">
+    <div id="content">
+      <%= yield %>
+    </div>
+  </body>
+</html>

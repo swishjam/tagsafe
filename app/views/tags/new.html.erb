@@ -1,0 +1,7 @@
+<%= render 'partials/page_header', page_title: 'Host a Tag', hide_new_tag_button: true %>
+
+<div class='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-12'>
+  <%= turbo_frame_tag "new_tag" do %>
+    <%= render 'form', tag: current_organization.tags.new %>
+  <% end %>
+</div>

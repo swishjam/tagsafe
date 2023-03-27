@@ -1,0 +1,112 @@
+<%= render 'partials/page_header', page_title: 'Hosted Tags' %>
+
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8">
+  <% if @tags.any? %>
+    <div class="overflow-hidden bg-white shadow sm:rounded-md">
+      <ul role="list" class="divide-y divide-gray-200">
+        <% @tags.each do |tag| %>
+          <li>
+            <%= link_to tag_path(tag), class: 'block hover:bg-gray-50' do %>
+              <div class="flex items-center px-4 py-4 sm:px-6">
+                <div class="flex min-w-0 flex-1 items-center">
+                  <div class="flex-shrink-0">
+                    <% if tag.has_image? %>
+                      <%= image_tag tag.image_url, class: 'h-12 w-12 rounded-full border border-gray-200' %>
+                    <% else %>
+                      <div class='h-12 w-12 rounded-full bg-gray-100 p-2'>
+                        <svg class="text-gray-400"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z" />
+                        </svg>
+                      </div>
+                    <% end %>
+                  </div>
+                  <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4 flex items-center">
+                    <div>
+                      <p class="truncate text-sm font-medium text-indigo-600"><%= tag.friendly_name || tag.hostname_and_path %></p>
+                      <% if tag.friendly_name %>
+                        <p class="flex items-center text-sm text-gray-500">
+                          <span class="truncate"><%= tag.hostname_and_path %></span>
+                        </p>
+                      <% end %>
+                    </div>
+                    <div class="text-end">
+                      <div>
+                        <% if tag.most_recent_tag_version %>
+                          <p class="text-sm text-gray-900">
+                            Last released <%= time_ago_in_words(tag.most_recent_tag_version.created_at) %> ago.
+                          </p>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              </div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% else %>
+    <div class="space-y-6 col-span-3 border rounded-md">
+      <div class="text-center mt-36 mb-36">
+        <svg class="mx-auto h-12 w-12 text-gray-400"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z" />
+        </svg>
+
+        <h3 class="mt-2 text-sm font-medium text-gray-900">You aren't hosting any tags yet.</h3>
+        
+        <div data-controller='modal'>
+          <a data-action='modal#showModal dropdown#toggle' class='underline w-fit m-auto cursor-pointer text-gray-700 block px-4 py-2 text-sm hover:text-blue-500'>
+            Install script snippet
+          </a>
+          <div class="relative z-10 opacity-0 hidden" data-modal-target='backdrop' aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+            <div class="fixed inset-0 z-10 overflow-y-auto">
+              <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                  <div>
+                    <div class="mt-3 text-center sm:mt-5">
+                      <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Paste the below HTML snippet into the top of the head of each page on your site.</h3>
+                      <div class="mt-2">
+                        <p class="text-sm text-gray-500 bg-gray-100 text-start whitespace-nowrap overflow-x-scroll p-2">
+                          &lt;script&gt;!function(e){var t={},r=new XMLHttpRequest;r.open("GET","<%= current_organization.hosted_configuration_url %>",!1),r.send(),r.onload=function(){t=JSON.parse(r.responseText)};var o=Node.prototype.appendChild;Node.prototype.appendChild=function(){return arguments[0]=s(arguments[0]),o.apply(this,arguments)};var p=Node.prototype.insertBefore;Node.prototype.insertBefore=function(){return arguments[0]=s(arguments[0]),p.apply(this,arguments)};var n=Node.prototype.prepend;Node.prototype.prepend=function(){return arguments[0]=s(arguments[0]),n.apply(this,arguments)};var s=function(e){return"SCRIPT"===e.tagName&&t[e.src]&&(e.setAttribute("data-self-hosted","true"),e.setAttribute("src",t[e.src])),e}}();&lt;/script&gt;
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+                    <div data-controller='copiable'>
+                      <input type='hidden' data-copiable-target='textInput' value='&lt;script&gt;!function(e){var t={},r=new XMLHttpRequest;r.open("GET","<%= current_organization.hosted_configuration_url %>",!1),r.send(),r.onload=function(){t=JSON.parse(r.responseText)};var o=Node.prototype.appendChild;Node.prototype.appendChild=function(){return arguments[0]=s(arguments[0]),o.apply(this,arguments)};var p=Node.prototype.insertBefore;Node.prototype.insertBefore=function(){return arguments[0]=s(arguments[0]),p.apply(this,arguments)};var n=Node.prototype.prepend;Node.prototype.prepend=function(){return arguments[0]=s(arguments[0]),n.apply(this,arguments)};var s=function(e){return"SCRIPT"===e.tagName&&t[e.src]&&(e.setAttribute("data-self-hosted","true"),e.setAttribute("src",t[e.src])),e}}();&lt;/script&gt;'>
+                      <button type="button" data-copiable-target='copyButton' data-action='copiable#copyText' class="w-full inline-flex items-center justify-center rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-200 focus:outline-none">
+                        Copy
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+                        </svg>
+                      </button>
+                    </div>
+                    <button type="button" data-action='modal#hideModal' class="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 col-start-2">Got it</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <span class='block text-gray-700 text-sm'>Then</span>
+
+        <%= link_to new_tag_path, class: 'mt-2 inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100' do %>
+          Host your first tag
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+

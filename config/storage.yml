@@ -1,0 +1,17 @@
+tag_image_s3:
+  service: S3
+  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  region: us-east-1
+  bucket: tagsafe-<%= Rails.env %>-tag-images
+  public: true # important - sets S3 objects to be publicly available, needed for Cloudfront
+  upload:
+    cache_control: 'public, immutable, max-age=31536000, stale-while-revalidate=86400' # cache for 1 year
+
+# why does rspec throw an error when this isnt present....
+test:
+  service: S3
+  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  region: us-east-1
+  bucket: test-bucket-should-never-exist

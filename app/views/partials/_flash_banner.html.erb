@@ -1,0 +1,5 @@
+<% if flash[:banner] %>
+  <div class='w-full text-center p-4 text-white <%= flash[:banner]['type'] == 'error' ? 'bg-red-500' : 'bg-green-500' %>'>
+    <%= flash[:banner]['message'] %>
+  </div>
+<% end %>

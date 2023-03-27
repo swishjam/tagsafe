@@ -1,0 +1,8 @@
+Description:
+    Generates a new Stimulus controller
+
+Example:
+    `rails generate stimulus MyNewController`
+
+    This will create a new Stimulus controller at:
+        app/assets/javascripts/controllers/my_new_controller.js
