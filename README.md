@@ -1,24 +1,19 @@
-# README
+![Tagsafe](readme.png)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+<div align="center"><strong>Tagsafe</strong></div>
+<div align="center">Self-Host Your 3rd Party Javascript</div>
+<br />
+<div align="center">
+<a href="https://tasgafe.io">Website</a>
+<span> · </span>
+<a href="https://github.com/swishjam/tagsafe">GitHub</a>
+</div
 
-Things you may want to cover:
 
-* Ruby version
+## Our goal
+We want everyone to build awesome web experiences. We see Tagsafe as a great tool to eliminate third party code on your frontend. 
 
-* System dependencies
-
-* GeneralConfiguration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Other Projects
+<a href="https://swishjam">Swishjam - Open-source tool to monitor frontend performance</a>
+## Instructions
+- more installation and setup instructions coming!
